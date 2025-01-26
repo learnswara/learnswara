@@ -43,7 +43,14 @@ class SoundTouchBindings {
 
   void _initializeBindings() {
     final libraryPath = _getLibraryPath();
-    _lib = DynamicLibrary.open(libraryPath);
+    print('.......Attempting to load library from: $libraryPath');
+    try {
+      _lib = DynamicLibrary.open(libraryPath);
+      print('.....Successfully loaded library');
+    } catch (e) {
+      print('.....Failed to load library: $e');
+      rethrow;
+    }
 
     createSoundTouch = _lib
         .lookup<NativeFunction<CreateSoundTouchNative>>('createSoundTouch')
@@ -74,9 +81,9 @@ class SoundTouchBindings {
     } else if (Platform.isIOS) {
       return 'soundtouch.framework/soundtouch';
     } else if (Platform.isWindows) {
-      return 'soundtouch.dll';
+      return 'SoundTouchDLL.dll';
     } else if (Platform.isMacOS) {
-      return 'libsoundtouch.dylib';
+      return 'libSoundTouchDLL.dylib';
     } else if (Platform.isLinux) {
       return 'libsoundtouch.so';
     }
