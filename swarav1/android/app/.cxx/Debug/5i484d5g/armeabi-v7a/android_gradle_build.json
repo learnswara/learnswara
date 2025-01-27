@@ -1,0 +1,40 @@
+{
+  "buildFiles": [
+    "/Users/suma/development/learnswara/swarav1/android/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/suma/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/suma/development/learnswara/swarav1/android/app/.cxx/Debug/5i484d5g/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/suma/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/suma/development/learnswara/swarav1/android/app/.cxx/Debug/5i484d5g/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "soundtouch_wrapper::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "armeabi-v7a",
+      "artifactName": "soundtouch_wrapper",
+      "output": "/Users/suma/development/learnswara/swarav1/build/app/intermediates/cxx/Debug/5i484d5g/obj/armeabi-v7a/libsoundtouch_wrapper.so",
+      "runtimeFiles": [
+        "/Users/suma/development/learnswara/swarav1/android/app/src/main/jniLibs/armeabi-v7a/libSoundTouch.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/suma/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/suma/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}
