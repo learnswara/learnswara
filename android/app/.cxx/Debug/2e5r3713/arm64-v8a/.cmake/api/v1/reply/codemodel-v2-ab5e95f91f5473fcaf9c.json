@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "swarav1",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "soundtouch::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soundtouch-Debug-551fdb68cb6ac3c4b82a.json",
+					"name" : "soundtouch",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soundtouch_wrapper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soundtouch_wrapper-Debug-3367ca8b157c9a9bc5de.json",
+					"name" : "soundtouch_wrapper",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/suma/development/learnswara/swarav1/android/app/.cxx/Debug/2e5r3713/arm64-v8a",
+		"source" : "/Users/suma/development/learnswara/swarav1/android/app/src/main/cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

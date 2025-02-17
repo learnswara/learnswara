@@ -1,0 +1,14 @@
+# ninja log v5
+1	82	1737961814883317375	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/cpu_detect_x86.cpp.o	38f0057a2e6ef40a
+0	126	1737961814928198324	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/AAFilter.cpp.o	7e5a3d469c00a37
+1	126	1737961814928565975	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/PeakFinder.cpp.o	410a164c7ff446e8
+1	127	1737961814930658469	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/InterpolateLinear.cpp.o	1c7c20b90b034efc
+0	129	1737961814932327397	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/FIFOSampleBuffer.cpp.o	e53cc48fbe403152
+0	133	1737961814936187356	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/RateTransposer.cpp.o	bac068828adc2228
+0	133	1737961814936508093	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/FIRFilter.cpp.o	c4ba5b60ca22aecf
+1	135	1737961814938486553	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/SoundTouch.cpp.o	5650fa71d9daab21
+1	139	1737961814940738628	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/TDStretch.cpp.o	c9b65cec12fe2a93
+1	209	1737961815011549208	CMakeFiles/soundtouch_wrapper.dir/soundtouch_wrapper.cpp.o	6a5f2ca2fb88b2bf
+1	224	1737961815022458556	CMakeFiles/soundtouch.dir/soundtouch/SoundTouch/BPMDetect.cpp.o	a0a4f8948f2b1528
+224	275	1737961815079975000	libsoundtouch.a	dcc7c67b37333d5e
+275	327	1737961815126309252	/Users/suma/development/learnswara/swarav1/build/app/intermediates/cxx/Debug/2v633y15/obj/arm64-v8a/libsoundtouch_wrapper.so	4f2bcd8ce83d536a
