@@ -50,8 +50,3 @@ temp_apk/
 pubspec.lock
 
 macos/Podfile.lock
-
-# Audio files
-*.mp3
-*.wav
-*.m4a
