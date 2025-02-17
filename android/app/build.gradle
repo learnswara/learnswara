@@ -51,9 +51,9 @@ android {
         applicationId "com.example.swarav1"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 1
-        versionName "1.0.0"
-
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++17"
@@ -61,25 +61,13 @@ android {
             }
         }
         ndk {
-            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
-        }
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("your-release.keystore")
-            storePassword "your-store-password"
-            keyAlias "your-key-alias"
-            keyPassword "your-key-password"
+            abiFilters 'arm64-v8a'
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         debug {
             jniDebuggable true
@@ -90,18 +78,6 @@ android {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
             version "3.22.1"
-        }
-    }
-
-    flavorDimensions "environment"
-    productFlavors {
-        development {
-            dimension "environment"
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
-        }
-        production {
-            dimension "environment"
         }
     }
 }
