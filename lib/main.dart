@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'soundtouch/soundtouch_processor.dart';
+import 'package:just_audio/just_audio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,28 +63,32 @@ class _MyHomePageState extends State<MyHomePage> {
   static const platform = MethodChannel('com.example.soundtouch/native');
   String? inputFilePath;
   String? outputFilePath;
-  String status = 'Select an audio file to process';
+  String status = 'Ready to play';
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
-  Future<void> pickAudioFile() async {
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    requestPermissions();
+    // Load the audio file when the app starts
+    _loadAudio();
+  }
+
+  Future<void> _loadAudio() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.audio,
-      );
-
-      if (result != null) {
-        setState(() {
-          inputFilePath = result.files.single.path;
-          // Create output path in app's documents directory
-          outputFilePath = inputFilePath!.replaceAll(
-            '.mp3',
-            '_processed.mp3',
-          );
-          status = 'File selected: ${result.files.single.name}';
-        });
-      }
+      await _audioPlayer.setAsset('assets/audio/base_ultra_small.wav');
+      setState(() {
+        status = 'Audio loaded and ready to play';
+      });
     } catch (e) {
       setState(() {
-        status = 'Error picking file: $e';
+        status = 'Error loading audio: $e';
       });
     }
   }
@@ -114,12 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> requestPermissions() async {
     await Permission.storage.request();
     await Permission.audio.request();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    requestPermissions();
   }
 
   @override
@@ -168,12 +167,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: pickAudioFile,
-                child: const Text('Select Audio File'),
+                onPressed: playAudio,
+                child: Text(_audioPlayer.playing ? 'Pause Audio' : 'Play Audio'),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: inputFilePath != null ? processSound : null,
+                onPressed: processSound,
                 child: const Text('Process Audio'),
               ),
             ],
@@ -181,6 +180,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> playAudio() async {
+    try {
+      if (_audioPlayer.playing) {
+        await _audioPlayer.pause();
+        setState(() {
+          status = 'Audio paused';
+        });
+      } else {
+        await _audioPlayer.play();
+        setState(() {
+          status = 'Playing audio';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        status = 'Error playing audio: $e';
+      });
+    }
   }
 }
 
@@ -262,4 +281,3 @@ class _AudioProcessingPageState extends State<AudioProcessingPage> {
     );
   }
 }
-
