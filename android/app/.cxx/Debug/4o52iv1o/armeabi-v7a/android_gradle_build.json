@@ -1,0 +1,53 @@
+{
+  "buildFiles": [
+    "/Users/suma/development/learnswara/android/app/src/main/cpp/CMakeLists.txt",
+    "/Users/suma/development/learnswara/android/app/src/main/cpp/soundtouch/CMakeLists.txt",
+    "/Users/suma/development/learnswara/android/app/src/main/cpp/soundtouch/SoundTouchConfig.cmake.in"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/suma/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/suma/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "SoundTouch::@991174331aea3268c71b": {
+      "toolchain": "toolchain",
+      "abi": "armeabi-v7a",
+      "artifactName": "SoundTouch",
+      "output": "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/libSoundTouch.a"
+    },
+    "soundstretch::@991174331aea3268c71b": {
+      "toolchain": "toolchain",
+      "abi": "armeabi-v7a",
+      "artifactName": "soundstretch",
+      "output": "/Users/suma/development/learnswara/build/app/intermediates/cxx/Debug/4o52iv1o/obj/armeabi-v7a/soundstretch",
+      "runtimeFiles": []
+    },
+    "soundtouch_wrapper::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "armeabi-v7a",
+      "artifactName": "soundtouch_wrapper",
+      "output": "/Users/suma/development/learnswara/build/app/intermediates/cxx/Debug/4o52iv1o/obj/armeabi-v7a/libsoundtouch_wrapper.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/suma/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/suma/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

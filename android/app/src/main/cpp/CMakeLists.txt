@@ -1,52 +1,37 @@
 cmake_minimum_required(VERSION 3.10.2)
 
-project("swarav1")
+# Set the project name
+project(soundtouch_wrapper)
 
-# Find Android log library
-find_library(log-lib log)
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Find the Android NDK
+include_directories(${ANDROID_NDK}/sources/android/native_app_glue)
 
 # Add SoundTouch library
-add_library(soundtouch STATIC
-    soundtouch/SoundTouch/AAFilter.cpp
-    soundtouch/SoundTouch/FIFOSampleBuffer.cpp
-    soundtouch/SoundTouch/FIRFilter.cpp
-    soundtouch/SoundTouch/RateTransposer.cpp
-    soundtouch/SoundTouch/SoundTouch.cpp
-    soundtouch/SoundTouch/TDStretch.cpp
-    soundtouch/SoundTouch/cpu_detect_x86.cpp
-    soundtouch/SoundTouch/InterpolateLinear.cpp
-    soundtouch/SoundTouch/BPMDetect.cpp
-    soundtouch/SoundTouch/PeakFinder.cpp
-)
+add_subdirectory(soundtouch)
 
-# Set SoundTouch include directories
-target_include_directories(soundtouch PUBLIC
-    soundtouch/include
-    soundtouch/SoundTouch
-)
-
-# Set SoundTouch compile definitions
-target_compile_definitions(soundtouch PUBLIC
-    SOUNDTOUCH_FLOAT_SAMPLES=1
-    ST_NO_EXCEPTION_HANDLING=1
-    ANDROID=1
-)
-
-# Add your wrapper library
+# Create the native library
 add_library(soundtouch_wrapper SHARED
     soundtouch_wrapper.cpp
 )
 
-# Include directories for wrapper
+# Find Android log library
+find_library(log-lib log)
+
+# Set include directories
 target_include_directories(soundtouch_wrapper PRIVATE
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}
-    soundtouch/include
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/soundtouch/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/soundtouch/source
 )
 
-# Link libraries
+# Link against required libraries
 target_link_libraries(soundtouch_wrapper
-    soundtouch
+    SoundTouch
     ${log-lib}
     android
 ) 

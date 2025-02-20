@@ -1,0 +1,41 @@
+{
+  "buildFiles": [
+    "/Users/suma/development/learnswara/android/app/src/main/cpp/CMakeLists.txt",
+    "/Users/suma/development/learnswara/android/app/src/main/cpp/soundtouch/CMakeLists.txt",
+    "/Users/suma/development/learnswara/android/app/src/main/cpp/soundtouch/SoundTouchConfig.cmake.in"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/suma/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/suma/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "SoundTouch::@991174331aea3268c71b": {
+      "artifactName": "SoundTouch",
+      "abi": "x86",
+      "output": "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86/soundtouch/libSoundTouch.a",
+      "runtimeFiles": []
+    },
+    "soundstretch::@991174331aea3268c71b": {
+      "artifactName": "soundstretch",
+      "abi": "x86",
+      "output": "/Users/suma/development/learnswara/build/app/intermediates/cxx/Debug/4o52iv1o/obj/x86/soundstretch",
+      "runtimeFiles": []
+    },
+    "soundtouch_wrapper::@6890427a1f51a3e7e1df": {
+      "artifactName": "soundtouch_wrapper",
+      "abi": "x86",
+      "output": "/Users/suma/development/learnswara/build/app/intermediates/cxx/Debug/4o52iv1o/obj/x86/libsoundtouch_wrapper.so",
+      "runtimeFiles": []
+    }
+  }
+}

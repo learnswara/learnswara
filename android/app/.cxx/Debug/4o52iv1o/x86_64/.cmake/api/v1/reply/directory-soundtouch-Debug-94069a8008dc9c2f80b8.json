@@ -1,0 +1,141 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"soundtouch/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 74,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 86,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 109,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 142,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 147,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 162,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "include/soundtouch",
+			"paths" : 
+			[
+				"soundtouch/include/BPMDetect.h",
+				"soundtouch/include/FIFOSampleBuffer.h",
+				"soundtouch/include/FIFOSamplePipe.h",
+				"soundtouch/include/STTypes.h",
+				"soundtouch/include/SoundTouch.h",
+				"soundtouch/include/soundtouch_config.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"soundtouch/libSoundTouch.a"
+			],
+			"targetId" : "SoundTouch::@991174331aea3268c71b",
+			"targetIndex" : 0,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"/Users/suma/development/learnswara/build/app/intermediates/cxx/Debug/4o52iv1o/obj/x86_64/soundstretch"
+			],
+			"targetId" : "soundstretch::@991174331aea3268c71b",
+			"targetIndex" : 1,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "lib/pkgconfig",
+			"paths" : 
+			[
+				"/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86_64/soundtouch/soundtouch.pc"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/SoundTouch",
+			"exportName" : "SoundTouchTargets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "SoundTouch::@991174331aea3268c71b",
+					"index" : 0
+				}
+			],
+			"paths" : 
+			[
+				"soundtouch/CMakeFiles/Export/lib/cmake/SoundTouch/SoundTouchTargets.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 6,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/SoundTouch",
+			"paths" : 
+			[
+				"/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86_64/soundtouch/SoundTouchConfig.cmake",
+				"/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86_64/soundtouch/SoundTouchConfigVersion.cmake"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "soundtouch",
+		"source" : "soundtouch"
+	}
+}

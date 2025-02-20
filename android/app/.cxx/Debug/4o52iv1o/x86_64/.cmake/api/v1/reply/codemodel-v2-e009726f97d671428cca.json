@@ -1,0 +1,113 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "soundtouch",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-soundtouch-Debug-94069a8008dc9c2f80b8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "soundtouch",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "soundtouch_wrapper",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "SoundTouch",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "SoundTouch::@991174331aea3268c71b",
+					"jsonFile" : "target-SoundTouch-Debug-4a6d62afac2d541bc2d8.json",
+					"name" : "SoundTouch",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "soundstretch::@991174331aea3268c71b",
+					"jsonFile" : "target-soundstretch-Debug-05ceb6a1a526c0780bac.json",
+					"name" : "soundstretch",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soundtouch_wrapper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soundtouch_wrapper-Debug-b1c711e52c4bd21563c0.json",
+					"name" : "soundtouch_wrapper",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/x86_64",
+		"source" : "/Users/suma/development/learnswara/android/app/src/main/cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,15 @@
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/soundtouch_wrapper.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/list_install_components.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/install.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/install/local.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/CMakeFiles/install/strip.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/SoundTouch.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/soundstretch.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/edit_cache.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/rebuild_cache.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/list_install_components.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/install.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/install/local.dir
+/Users/suma/development/learnswara/android/app/.cxx/Debug/4o52iv1o/armeabi-v7a/soundtouch/CMakeFiles/install/strip.dir

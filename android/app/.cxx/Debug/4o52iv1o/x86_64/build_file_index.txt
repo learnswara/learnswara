@@ -1,0 +1,3 @@
+/Users/suma/development/learnswara/android/app/src/main/cpp/CMakeLists.txt
+/Users/suma/development/learnswara/android/app/src/main/cpp/soundtouch/CMakeLists.txt
+/Users/suma/development/learnswara/android/app/src/main/cpp/soundtouch/SoundTouchConfig.cmake.in

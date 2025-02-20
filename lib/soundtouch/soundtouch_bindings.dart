@@ -1,78 +1,84 @@
 import 'dart:ffi';
 import 'dart:io';
-import 'package:ffi/ffi.dart';
 
-typedef CreateSoundTouchNative = Pointer Function();
-typedef CreateSoundTouch = Pointer Function();
+typedef CreateSoundTouchNative = Int64 Function();
+typedef CreateSoundTouch = int Function();
 
 typedef ProcessSampleNative = Void Function(
-    Pointer handle, Pointer<Float> samples, Int32 numSamples);
-typedef ProcessSample = void Function(
-    Pointer handle, Pointer<Float> samples, int numSamples);
+    Int64 handle, Pointer<Float> samples, Int32 numSamples);
+typedef ProcessSampleWrapper = void Function(
+    int handle, Pointer<Float> samples, int numSamples);
+typedef ProcessSampleWrapperNative = Void Function(
+    Int64 handle, Pointer<Float> samples, Int32 numSamples);
 
-typedef SetPitchSemiTonesNative = Void Function(Pointer handle, Float pitch);
-typedef SetPitchSemiTones = void Function(Pointer handle, double pitch);
+typedef SetPitchSemiTonesNative = Void Function(Int64 handle, Double pitch);
+typedef SetPitchSemiTones = void Function(int handle, double pitch);
 
-typedef SetTempoChangeNative = Void Function(Pointer handle, Float tempo);
-typedef SetTempoChange = void Function(Pointer handle, double tempo);
+typedef SetTempoChangeNative = Void Function(Int64 handle, Double tempo);
+typedef SetTempoChange = void Function(int handle, double tempo);
 
-typedef SetRateChangeNative = Void Function(Pointer handle, Float rate);
-typedef SetRateChange = void Function(Pointer handle, double rate);
+typedef SetRateChangeNative = Void Function(Int64 handle, Double rate);
+typedef SetRateChange = void Function(int handle, double rate);
 
 typedef ReceiveSamplesNative = Int32 Function(
-    Pointer handle, Pointer<Float> output, Int32 maxSamples);
-typedef ReceiveSamples = int Function(
-    Pointer handle, Pointer<Float> output, int maxSamples);
+    Int64 handle, Pointer<Float> output, Int32 maxSamples);
+typedef ReceiveSamplesWrapper = int Function(
+    int handle, Pointer<Float> output, int maxSamples);
+typedef ReceiveSamplesWrapperNative = Int32 Function(
+    Int64 handle, Pointer<Float> output, Int32 maxSamples);
 
-typedef DisposeSoundTouchNative = Void Function(Pointer handle);
-typedef DisposeSoundTouch = void Function(Pointer handle);
+typedef DisposeSoundTouchNative = Void Function(Int64 handle);
+typedef DisposeSoundTouch = void Function(int handle);
 
 class SoundTouchBindings {
-  late DynamicLibrary _lib;
-  late CreateSoundTouch createSoundTouch;
-  late ProcessSample processSample;
-  late SetPitchSemiTones setPitchSemiTones;
-  late SetTempoChange setTempoChange;
-  late SetRateChange setRateChange;
-  late ReceiveSamples receiveSamples;
-  late DisposeSoundTouch disposeSoundTouch;
+  final DynamicLibrary _lib;
+  late final CreateSoundTouch createSoundTouch;
+  late final ProcessSampleWrapper processSample;
+  late final SetPitchSemiTones setPitchSemiTones;
+  late final SetTempoChange setTempoChange;
+  late final SetRateChange setRateChange;
+  late final ReceiveSamplesWrapper receiveSamples;
+  late final DisposeSoundTouch disposeSoundTouch;
 
-  SoundTouchBindings() {
+  SoundTouchBindings() : _lib = _openLib() {
     _initializeBindings();
   }
 
-  void _initializeBindings() {
-    final libraryPath = _getLibraryPath();
-    print('.......Attempting to load library from: $libraryPath');
-    try {
-      _lib = DynamicLibrary.open(libraryPath);
-      print('.....Successfully loaded library');
-    } catch (e) {
-      print('.....Failed to load library: $e');
-      rethrow;
+  static DynamicLibrary _openLib() {
+    if (Platform.isAndroid) {
+      return DynamicLibrary.open('libsoundtouch_wrapper.so');
     }
+    throw UnsupportedError('Unsupported platform');
+  }
 
+  void _initializeBindings() {
     createSoundTouch = _lib
-        .lookup<NativeFunction<CreateSoundTouchNative>>('createSoundTouch')
-        .asFunction();
+        .lookupFunction<CreateSoundTouchNative, CreateSoundTouch>(
+            'Java_com_example_swarav1_MainActivity_createSoundTouch');
+    
     processSample = _lib
-        .lookup<NativeFunction<ProcessSampleNative>>('processSample')
-        .asFunction();
-    setPitchSemiTones = _lib
-        .lookup<NativeFunction<SetPitchSemiTonesNative>>('setPitchSemiTones')
-        .asFunction();
-    setTempoChange = _lib
-        .lookup<NativeFunction<SetTempoChangeNative>>('setTempoChange')
-        .asFunction();
-    setRateChange = _lib
-        .lookup<NativeFunction<SetRateChangeNative>>('setRateChange')
-        .asFunction();
+        .lookupFunction<ProcessSampleWrapperNative, ProcessSampleWrapper>(
+            "processSampleWrapper");
+    
     receiveSamples = _lib
-        .lookup<NativeFunction<ReceiveSamplesNative>>('receiveSamples')
-        .asFunction();
+        .lookupFunction<ReceiveSamplesWrapperNative, ReceiveSamplesWrapper>(
+            "receiveSamplesWrapper");
+    
+    setPitchSemiTones = _lib
+        .lookupFunction<SetPitchSemiTonesNative, SetPitchSemiTones>(
+            'Java_com_example_swarav1_MainActivity_setPitchSemiTones');
+    
+    setTempoChange = _lib
+        .lookupFunction<SetTempoChangeNative, SetTempoChange>(
+            'Java_com_example_swarav1_MainActivity_setTempoChange');
+    
+    setRateChange = _lib
+        .lookupFunction<SetRateChangeNative, SetRateChange>(
+            'Java_com_example_swarav1_MainActivity_setRateChange');
+    
     disposeSoundTouch = _lib
-        .lookup<NativeFunction<DisposeSoundTouchNative>>('disposeSoundTouch')
-        .asFunction();
+        .lookupFunction<DisposeSoundTouchNative, DisposeSoundTouch>(
+            'Java_com_example_swarav1_MainActivity_disposeSoundTouch');
   }
 
   String _getLibraryPath() {

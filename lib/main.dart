@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'soundtouch/soundtouch_processor.dart';
 import 'package:just_audio/just_audio.dart';
+import 'dart:ffi';  // Add this import at the top
+
+extension AudioPlayerExtension on AudioPlayer {
+  Future<String?> getCurrentAudioPath() async {
+    try {
+      if (audioSource != null) {
+        // For assets, return the asset path directly
+        return 'assets/audio/test_mono.wav';
+      }
+      return null;
+    } catch (e) {
+      print('Error getting audio path: $e');
+      return null;
+    }
+  }
+}
 
 void main() {
   runApp(const MyApp());
@@ -65,28 +79,55 @@ class _MyHomePageState extends State<MyHomePage> {
   String? outputFilePath;
   String status = 'Ready to play';
   final AudioPlayer _audioPlayer = AudioPlayer();
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
-  }
+  final SoundTouchProcessor _processor = SoundTouchProcessor();
+  int? _handle;  // Change from Pointer? to int?
 
   @override
   void initState() {
     super.initState();
+    _initializeSoundTouch();
     requestPermissions();
     // Load the audio file when the app starts
     _loadAudio();
   }
 
+  void _initializeSoundTouch() {
+    try {
+      _handle = _processor.createSoundTouch();
+      if (_handle == 0) {
+        print("Failed to create SoundTouch instance");
+        return;
+      }
+      print("Created SoundTouch instance with handle: $_handle");
+    } catch (e) {
+      print("Error initializing SoundTouch: $e");
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_handle != null) {
+      _processor.disposeSoundTouch(_handle!);
+    }
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadAudio() async {
     try {
-      await _audioPlayer.setAsset('assets/audio/base_ultra_small.wav');
+      const assetPath = 'assets/audio/test_mono.wav';
+      // Check if asset exists
+      final ByteData data = await rootBundle.load(assetPath);
+      if (data.lengthInBytes == 0) {
+        throw Exception('Asset file is empty');
+      }
+      
+      await _audioPlayer.setAsset(assetPath);
       setState(() {
         status = 'Audio loaded and ready to play';
       });
     } catch (e) {
+      print('Error loading audio: $e');
       setState(() {
         status = 'Error loading audio: $e';
       });
@@ -119,6 +160,134 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> requestPermissions() async {
     await Permission.storage.request();
     await Permission.audio.request();
+  }
+
+  Future<void> playAudioWithPitch(double pitch) async {
+    print("Starting playAudioWithPitch with pitch: $pitch");
+    if (_handle == null || _handle == 0) {
+      print("Handle is null or invalid!");
+      setState(() {
+        status = 'Error: SoundTouch not initialized';
+      });
+      return;
+    }
+
+    print("Using handle: $_handle");
+
+    try {
+      // Calculate better tempo and rate values based on pitch shift amount
+      double tempo;
+      double rate;
+      
+      if (pitch == 8.0) {  // G#
+        // For G#, use these settings
+        tempo = 0.95;      // Slightly slower tempo
+        rate = 0.98;       // Slightly slower rate
+        print("Setting G# configuration...");
+      } else if (pitch == 11.0) {  // B
+        // For B, use these settings
+        tempo = 0.92;      // Even slower tempo
+        rate = 0.95;       // Slower rate
+        print("Setting B configuration...");
+      } else if (pitch == 2.0) {  // C# to D#
+        // For a small shift, use default settings
+        tempo = 1.0;
+        rate = 1.0;
+        print("Setting 2 semitones configuration...");
+      } else {
+        tempo = 1.0;
+        rate = 1.0;
+      }
+
+      // First clear any previous processing
+      _processor.disposeSoundTouch(_handle!);
+      _handle = _processor.createSoundTouch();
+      
+      // Configure SoundTouch settings in specific order
+      print("Setting rate to $rate...");
+      _processor.setRate(_handle!, rate);
+      
+      print("Setting tempo to $tempo...");
+      _processor.setTempo(_handle!, tempo);
+      
+      print("Setting pitch to $pitch semitones...");
+      _processor.setPitch(_handle!, pitch);
+
+      // Process the audio file
+      print("Processing audio file...");
+      final String processedPath = await _processor.processAudioFile(
+        _handle!,
+        'assets/audio/test_mono.wav',
+        'output_${DateTime.now().millisecondsSinceEpoch}.wav',
+      );
+      print("Processed path: $processedPath");
+
+      // Verify the file exists
+      final file = File(processedPath);
+      if (!file.existsSync()) {
+        throw Exception('Processed file does not exist: $processedPath');
+      }
+      print("File size: ${file.lengthSync()} bytes");
+
+      // Debug the audio file
+      print("Audio file exists: ${file.existsSync()}");
+      print("Audio file size: ${file.lengthSync()} bytes");
+      print("Audio file path: ${file.absolute.path}");
+
+      // Try to read the first few bytes
+      final bytes = await file.openRead(0, 12).toList();
+      print("First 12 bytes: ${bytes.expand((x) => x).toList()}");
+
+      // Play the processed audio
+      print("Setting up audio player...");
+      await _audioPlayer.stop();
+      
+      // Set volume to maximum
+      await _audioPlayer.setVolume(1.0);
+      
+      // Try playing with different audio sources
+      try {
+        await _audioPlayer.setAudioSource(
+          AudioSource.file(processedPath),
+          initialPosition: Duration.zero,
+        );
+        print("Audio source set successfully");
+        
+        await _audioPlayer.play();
+        print("Playback started");
+        
+        // Monitor playback state
+        _audioPlayer.playerStateStream.listen((state) {
+          print("Player state: ${state.processingState}");
+        });
+
+        // Monitor playback errors
+        _audioPlayer.positionStream.listen(
+          (position) => print("Playback position: $position"),
+          onError: (error) => print("Playback error: $error"),
+        );
+
+        // Add duration monitoring
+        _audioPlayer.durationStream.listen(
+          (duration) => print("Track duration: $duration"),
+          onError: (error) => print("Duration error: $error"),
+        );
+        
+      } catch (e) {
+        print("Error setting audio source: $e");
+        rethrow;
+      }
+      
+      setState(() {
+        status = 'Playing audio with pitch $pitch';
+      });
+    } catch (e, stackTrace) {
+      print("Error in playAudioWithPitch: $e");
+      print("Stack trace: $stackTrace");
+      setState(() {
+        status = 'Error playing audio: $e';
+      });
+    }
   }
 
   @override
@@ -167,39 +336,61 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: playAudio,
-                child: Text(_audioPlayer.playing ? 'Pause Audio' : 'Play Audio'),
+                onPressed: () => playAudioWithPitch(8.0), // G# pitch
+                child: const Text('Play G#'),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () => playAudioWithPitch(11.0), // B pitch
+                child: const Text('Play B'),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () => playAudioWithPitch(2.0), // 2 semitones pitch
+                child: const Text('Play 2 Semitones Up'),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: processSound,
                 child: const Text('Process Audio'),
               ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    // Create a simple beep using AudioSource.uri
+                    await _audioPlayer.setVolume(1.0);
+                    await _audioPlayer.setUrl('asset:///assets/audio/test_mono.wav');
+                    await _audioPlayer.play();
+                    setState(() {
+                      status = 'Playing original audio';
+                    });
+                  } catch (e) {
+                    print("Error playing test audio: $e");
+                    setState(() {
+                      status = 'Error playing test audio: $e';
+                    });
+                  }
+                },
+                child: const Text('Play Original'),
+              ),
+              const SizedBox(height: 10),
+              Slider(
+                value: _audioPlayer.volume,
+                min: 0.0,
+                max: 1.0,
+                onChanged: (value) {
+                  setState(() {
+                    _audioPlayer.setVolume(value);
+                  });
+                },
+                label: 'Volume',
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future<void> playAudio() async {
-    try {
-      if (_audioPlayer.playing) {
-        await _audioPlayer.pause();
-        setState(() {
-          status = 'Audio paused';
-        });
-      } else {
-        await _audioPlayer.play();
-        setState(() {
-          status = 'Playing audio';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        status = 'Error playing audio: $e';
-      });
-    }
   }
 }
 
@@ -212,6 +403,7 @@ class AudioProcessingPage extends StatefulWidget {
 
 class _AudioProcessingPageState extends State<AudioProcessingPage> {
   late SoundTouchProcessor _processor;
+  int? _handle;  // Add this line
   double _pitch = 0.0;
   double _tempo = 1.0;
   double _rate = 1.0;
@@ -220,11 +412,14 @@ class _AudioProcessingPageState extends State<AudioProcessingPage> {
   void initState() {
     super.initState();
     _processor = SoundTouchProcessor();
+    _handle = _processor.createSoundTouch();  // Initialize the handle
   }
 
   @override
   void dispose() {
-    _processor.dispose();
+    if (_handle != null) {
+      _processor.disposeSoundTouch(_handle!);
+    }
     super.dispose();
   }
 
@@ -247,7 +442,9 @@ class _AudioProcessingPageState extends State<AudioProcessingPage> {
               onChanged: (value) {
                 setState(() {
                   _pitch = value;
-                  _processor.setPitch(_pitch);
+                  if (_handle != null) {
+                    _processor.setPitch(_handle!, _pitch);
+                  }
                 });
               },
             ),
@@ -259,7 +456,9 @@ class _AudioProcessingPageState extends State<AudioProcessingPage> {
               onChanged: (value) {
                 setState(() {
                   _tempo = value;
-                  _processor.setTempo(_tempo);
+                  if (_handle != null) {
+                    _processor.setTempo(_handle!, _tempo);
+                  }
                 });
               },
             ),
@@ -271,7 +470,9 @@ class _AudioProcessingPageState extends State<AudioProcessingPage> {
               onChanged: (value) {
                 setState(() {
                   _rate = value;
-                  _processor.setRate(_rate);
+                  if (_handle != null) {
+                    _processor.setRate(_handle!, _rate);
+                  }
                 });
               },
             ),

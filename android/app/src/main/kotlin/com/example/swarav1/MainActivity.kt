@@ -15,7 +15,14 @@ class MainActivity: FlutterActivity() {
         System.loadLibrary("soundtouch_wrapper")  // Load the wrapper library
     }
 
-    // Declare a native method that will be implemented in C++
+    // Declare all native methods
+    external fun createSoundTouch(): Long
+    external fun processSample(handle: Long, samples: FloatArray, numSamples: Int)
+    external fun setPitchSemiTones(handle: Long, pitch: Double)
+    external fun setTempoChange(handle: Long, tempo: Double)
+    external fun setRateChange(handle: Long, rate: Double)
+    external fun receiveSamples(handle: Long, output: FloatArray, maxSamples: Int): Int
+    external fun disposeSoundTouch(handle: Long)
     external fun processSound(inputFilePath: String, outputFilePath: String): String
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
